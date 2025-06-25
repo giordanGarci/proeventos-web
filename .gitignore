@@ -898,3 +898,13 @@ $RECYCLE.BIN/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+
+.angular/
+.vscode/
+# Ignore VSCode settings that are user-specific
+.vscode/*
+# But keep shared configs
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/settings.json
