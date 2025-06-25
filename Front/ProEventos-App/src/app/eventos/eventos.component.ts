@@ -5,8 +5,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  templateUrl: './eventos.html',
-  styleUrls: ['./eventos.scss'],
+  templateUrl: './eventos.component.html',
+  styleUrls: ['./eventos.component.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { EventosComponent } from "./eventos/eventos";
-import { Palestrantes } from "./palestrantes/palestrantes";
+import { EventosComponent } from "./eventos/eventos.component";
+import { Palestrantes } from "./palestrantes/palestrantes.component";
 
 
 @Component({
