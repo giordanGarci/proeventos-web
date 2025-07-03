@@ -908,3 +908,8 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/tasks.json
 !.vscode/settings.json
+
+# ignore db files
+*.db
+*.db-shm
+*.db-wal
