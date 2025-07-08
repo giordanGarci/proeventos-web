@@ -1,26 +1,48 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using ProEventos.API.Data;
 
-namespace ProEventos.API
+var builder = WebApplication.CreateBuilder(args);
+
+// 🔧 Configuração do banco de dados (SQLite)
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+// 🔧 Controladores + CORS + Swagger
+builder.Services.AddControllers();
+builder.Services.AddCors();
+builder.Services.AddEndpointsApiExplorer(); // Necessário para Swagger no novo modelo
+builder.Services.AddSwaggerGen(c =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+var app = builder.Build();
+
+// 🌐 Ambiente de desenvolvimento
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProEventos.API v1"));
 }
+
+// 🔒 HTTPS redirection
+app.UseHttpsRedirection();
+
+// 🌐 CORS
+app.UseCors(policy =>
+{
+    policy.WithOrigins("http://localhost:4200")
+          .AllowAnyMethod()
+          .AllowAnyHeader();
+});
+
+// 🔐 Autorização (se usar autenticação depois)
+app.UseAuthorization();
+
+// 🚀 Rotas
+app.MapControllers();
+
+app.Run();
