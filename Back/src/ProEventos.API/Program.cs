@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using ProEventos.API.Data;
+using ProEventos.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 🔧 Configuração do banco de dados (SQLite)
-builder.Services.AddDbContext<DataContext>(options =>
+builder.Services.AddDbContext<ProEventosContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
 // 🔧 Controladores + CORS + Swagger
