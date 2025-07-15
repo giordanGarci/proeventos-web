@@ -1,0 +1,15 @@
+using ProEventos.Domain;
+using System.Threading.Tasks;
+
+namespace ProEventos.Persistence.Interfaces;
+
+public interface IBasePersist
+{
+    // Geral
+    void Add<T>(T entity) where T : class;
+    void Update<T>(T entity) where T : class;
+    void Delete<T>(T entity) where T : class;
+    void DeleteRange<T>(T[] entities) where T : class;
+    Task<bool> SaveChangesAsync();
+
+}
