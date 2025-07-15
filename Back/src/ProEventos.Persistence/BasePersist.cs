@@ -1,5 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using ProEventos.Domain;
+using ProEventos.Persistence.Context;
 using ProEventos.Persistence.Interfaces;
 using System.Linq;
 
