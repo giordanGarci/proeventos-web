@@ -14,11 +14,12 @@ public interface IProEventosPersistence
 
     // Eventos
     Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false);
-    Task<Event[]> GetAllEventsByIdAsync(int eventId, bool includeSpeakers = false);
-    Task<Event[]> GetAllEvents(bool includeSpeakers = false);
+    Task<Event?> GetAllEventsByIdAsync(int eventId, bool includeSpeakers = false);
+
+    Task<Event[]> GetAllEventsAsync(bool includeSpeakers = false);
 
     // Speakers
     Task<Speaker[]> GetAllSpeakersAsync(bool includeEvents = false);
-    Task<Speaker[]> GetAllSpeakerByIdAsync(int speakerId, bool includeEvents = false);
+    Task<Speaker?> GetSpeakerByIdAsync(int speakerId, bool includeEvents = false);
     Task<Speaker[]> GetAllSpeakersByNameAsync(string name, bool includeEvents = false);
 }
