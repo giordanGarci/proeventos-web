@@ -69,19 +69,49 @@ public class EventService : IEventService
     
     }
 
-    public Task<Event[]> GetAllEventsAsync(bool includeSpeakers = false)
+    public async Task<Event[]> GetAllEventsAsync(bool includeSpeakers = false)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var events = await _eventPersist.GetAllEventsAsync(includeSpeakers);
+            if (events == null) return null;
+            return events;
+        }
+        catch (Exception ex)
+        {
+            
+            throw new Exception($"Error while retrieving all events: {ex.Message}", ex);
+        }
     }
 
-    public Task<Event?> GetEventByIdAsync(int eventId, bool includeSpeakers = false)
+    public async Task<Event?> GetEventByIdAsync(int eventId, bool includeSpeakers = false)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var eventById = await _eventPersist.GetEventByIdAsync(eventId, includeSpeakers);
+            if (eventById == null) return null;
+            return eventById;
+        }
+        catch (Exception ex)
+        {
+            
+            throw new Exception($"Error while retrieving event by ID {eventId}: {ex.Message}", ex);
+        }
     }
 
-    public Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false)
+    public async Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includeSpeakers = false)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var eventsByTheme = await _eventPersist.GetAllEventsByThemeAsync(theme, includeSpeakers);
+            if (eventsByTheme == null) return null;
+            return eventsByTheme;
+        }
+        catch (Exception ex)
+        {
+            
+            throw new Exception($"Error while retrieving events by theme '{theme}': {ex.Message}", ex);
+        }
     }
 
 }
