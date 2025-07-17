@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.Application.Interfaces;
 using ProEventos.Persistence;
 using ProEventos.Domain;
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace ProEventos.API.Controllers;
 
+namespace ProEventos.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class EventsController : ControllerBase
@@ -21,7 +22,7 @@ public class EventsController : ControllerBase
     {
         try
         {
-            var events = _eventService.GetAllEventsAsync(true);
+            var events = await _eventService.GetAllEventsAsync(true);
             if (events == null || !events.Any())
             {
                 return NotFound("No events found.");
@@ -76,10 +77,10 @@ public class EventsController : ControllerBase
     {
         try
         {
-            var eventToAdd = await _eventService.AddEvents(eventToAdd);
-            if (eventToAdd == null) return BadRequest("Event to add is null or invalid.");
+            var eventAdded = await _eventService.AddEvents(eventToAdd);
+            if (eventAdded == null) return BadRequest("Event to add is null or invalid.");
 
-            return Ok(eventToAdd);
+            return Ok(eventAdded);
         }
         catch (Exception ex)
         {
@@ -110,9 +111,10 @@ public class EventsController : ControllerBase
     {
         try
         {
-            return await _eventService.DeleteEvents(id) ?
-                Ok("Event deleted successfully.") :
-                NotFound($"Event with ID {id} not found.");
+            if (await _eventService.DeleteEvents(id) == true)
+                return Ok("Event deleted successfully.");
+
+            return NotFound($"Event with ID {id} not found.");
         }
         catch (Exception ex)
         {
