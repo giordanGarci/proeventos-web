@@ -49,7 +49,7 @@ public class EventsController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError,
             $"Error retrieving event with ID {id}: {ex.Message}");
         }
-       
+
     }
 
     [HttpGet("theme/{theme}", Name = "GetEventoByTheme")]
@@ -72,8 +72,53 @@ public class EventsController : ControllerBase
     }
 
     [HttpPost(Name = "PostEvento")]
-    public string Post()
+    public async Task<IActionResult> Post([FromBody] Event eventToAdd)
     {
-        return "exemplo de post";
+        try
+        {
+            var eventToAdd = await _eventService.AddEvents(eventToAdd);
+            if (eventToAdd == null) return BadRequest("Event to add is null or invalid.");
+
+            return Ok(eventToAdd);
+        }
+        catch (Exception ex)
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError,
+            $"Error adding event: {ex.Message}");
+        }
     }
+
+    [HttpPut(Name = "PutEvento")]
+    public async Task<IActionResult> Put(int id, [FromBody] Event eventToUpdate)
+    {
+        try
+        {
+
+            var updatedEvent = await _eventService.UpdateEvents(id, eventToUpdate);
+            if (updatedEvent == null) return NotFound($"Event with ID {id} not found.");
+            return Ok(updatedEvent);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+            $"Error updating event with ID {id}: {ex.Message}");
+        }
+    }
+
+    [HttpDelete(Name = "DeleteEvento")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            return await _eventService.DeleteEvents(id) ?
+                Ok("Event deleted successfully.") :
+                NotFound($"Event with ID {id} not found.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+            $"Error deleting event with ID {id}: {ex.Message}");
+        }
+    }
+
 }
