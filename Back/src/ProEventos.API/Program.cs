@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using ProEventos.Persistence;
+using ProEventos.Application;
+using ProEventos.Application.Interfaces;
+using ProEventos.Persistence.Interfaces;
 using ProEventos.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +20,10 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });
 });
+
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IBasePersist, BasePersist>();
+builder.Services.AddScoped<IEventPersist, EventPersist>();
 
 var app = builder.Build();
 

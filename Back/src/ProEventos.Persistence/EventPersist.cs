@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace ProEventos.Persistence;
 
-    public class EventPersistence : IEventPersist
+    public class EventPersist : IEventPersist
     {
         private readonly ProEventosContext _context;
-        public EventPersistence(ProEventosContext context)
+        public EventPersist(ProEventosContext context)
         {
             _context = context;
         }
