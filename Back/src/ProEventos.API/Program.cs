@@ -13,7 +13,14 @@ builder.Services.AddDbContext<ProEventosContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
 
 // 🔧 Controladores + CORS + Swagger
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        // Você pode configurar mais opções aqui, se quiser
+    });
+
 builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer(); // Necessário para Swagger no novo modelo
 builder.Services.AddSwaggerGen(c =>

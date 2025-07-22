@@ -40,6 +40,8 @@ public class EventService : IEventService
             if (existingEvent == null) return null;
 
             existingEvent.Id = eventToUpdate.Id;
+
+        
             _geralPersist.Update<Event>(existingEvent);
             if (await _geralPersist.SaveChangesAsync())
             {
