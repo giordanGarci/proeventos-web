@@ -12,12 +12,27 @@ public class ProEventosContext : DbContext
     public DbSet<Speaker> Speakers { get; set; }
     public DbSet<SpeakerEvent> SpeakersEvents { get; set; }
     public DbSet<SocialMedia> SocialMedias { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<SpeakerEvent>()
             .HasKey(se => new { se.EventId, se.SpeakerId });
 
+        modelBuilder.Entity<Event>()
+            .HasMany(e => e.SocialMedias)
+            .WithOne(sm => sm.Event)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Speaker>()
+            .HasMany(s => s.SocialMedias)
+            .WithOne(sm => sm.Speaker)
+            .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<Event>()
+            .HasMany(e => e.Batches)
+            .WithOne(b => b.Event)
+            .OnDelete(DeleteBehavior.Cascade);
+            
     }
 
 }
